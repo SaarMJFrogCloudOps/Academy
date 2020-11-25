@@ -8,7 +8,7 @@ The [presentation](https://docs.google.com/presentation/d/1XvnEW1cEjiBeC15jvV3y4
 
 GKE cluster provisioned using Terraform - 
 Starting out with two nodes of type  N1-standard-1 (scaling up to 5 nodes with 1 vCPU 3.75Gb RAM each)
-Should last 5-10 weeks given a 300$ free credits [budget(https://cloud.google.com/compute/vm-instance-pricing#n1_predefined) 
+Should last 5-10 weeks given a 300$ free credits [budget](https://cloud.google.com/compute/vm-instance-pricing#n1_predefined) 
 In a VPC for baseline network privacy and security setup appropriate for a web app.
 
 ## WebApp
