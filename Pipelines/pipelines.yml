@@ -6,6 +6,8 @@ resources:
       path: SaarMJFrogCloudOps/Academy    # <-- replace with your repository name
       branches:
         include: main
+      buildOn:
+        commit: true
 
   - name: app_image
     type: Image
