@@ -27,7 +27,7 @@ variable "network" {
 }
 
 variable "subnetwork" {
-  default = "subnet-default" 
+  default = "default" 
 }
 
 variable "ip_range_pods" { 
