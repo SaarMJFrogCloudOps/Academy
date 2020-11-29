@@ -38,7 +38,7 @@ pipelines:
         type: DockerBuild
         configuration:
           affinityGroup: app_group
-          dockerFileLocation: Application/Dockerfile
+          dockerFileLocation: Application/
           dockerFileName: Dockerfile
           dockerImageName: saar-docker.jfrog.io/docker-local/webapp  # replace with your image path and name
           dockerImageTag: ${run_number}
