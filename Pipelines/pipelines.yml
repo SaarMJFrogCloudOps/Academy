@@ -5,7 +5,7 @@ resources:
       gitProvider: my_github3                      # <-- replace with your integration
       path: SaarMJFrogCloudOps/Academy    # <-- replace with your repository name
       branches:
-        include: master
+        include: main
 
   - name: app_image
     type: Image
@@ -70,7 +70,7 @@ pipelines:
       - name: promote_app_build
         type: PromoteBuild
         configuration:
-          targetRepository: demo-pipelines
+          targetRepository: docker-local
           integrations:
             - name: saartifactory
           inputResources:
