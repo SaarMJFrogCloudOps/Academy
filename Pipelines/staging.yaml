@@ -2,7 +2,7 @@ resources:
   - name: dbp_repo
     type: GitRepo
     configuration:
-      gitProvider: my_github                       # <-- replace with your integration
+      gitProvider: my_github3                      # <-- replace with your integration
       path: SaarMJFrogCloudOps/Academy    # <-- replace with your repository name
       branches:
         include: master
