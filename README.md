@@ -33,4 +33,26 @@ gcloud services enable container.googleapis.com
 
 <!-- Aligning the projectID for Terraform and gcloud is essential!!! -->
 <!-- gcloud config set project cloudopsacademy
-export TF_VAR_project=$(gcloud config get-value project) --> 
+export TF_VAR_project=$(gcloud config get-value project)
+
+
+https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs
+
+
+saar@work$ gcloud compute addresses create coaeip --global
+Created [https://www.googleapis.com/compute/v1/projects/cloudopsacademy/global/addresses/coaeip].
+
+$ gcloud compute addresses describe coaeip --global
+address: 34.120.15.186
+addressType: EXTERNAL
+creationTimestamp: '2020-11-30T05:24:47.281-08:00'
+description: ''
+id: '4707713204345195632'
+ipVersion: IPV4
+kind: compute#address
+name: coaeip
+networkTier: PREMIUM
+selfLink: https://www.googleapis.com/compute/v1/projects/cloudopsacademy/global/addresses/coaeip
+status: RESERVED
+
+ --> 
