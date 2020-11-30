@@ -14,7 +14,7 @@ resources:
     configuration:
       registry: saartifactory                              # <-- replace with your artifactory integration
       sourceRepository: docker_local               # <-- required if registry is Artifactory
-      imageName: saar-docker.jfrog.io/docker-local/webapp  # < -- replace with your image path and name
+      imageName: saar-docker.jfrog.io/docker-local/webapp-features  # < -- replace with your image path and name
       imageTag: latest
       autoPull: true
       
@@ -42,7 +42,7 @@ pipelines:
           affinityGroup: app_group
           dockerFileLocation: Application/
           dockerFileName: Dockerfile
-          dockerImageName: saar-docker.jfrog.io/docker-local/webapp  # replace with your image path and name
+          dockerImageName: saar-docker.jfrog.io/docker-local/webapp-features  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: app_repo
