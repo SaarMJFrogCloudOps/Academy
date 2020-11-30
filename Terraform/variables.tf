@@ -27,15 +27,15 @@ variable "network" {
 }
 
 variable "subnetwork" {
-  default = "subnet-default" 
+  default = "default" 
 }
 
 variable "ip_range_pods" { 
-  default = "rp" 
+  default = "pods-secondary-range" 
 }
 
 variable "ip_range_services" { 
-  default = "rs" 
+  default = "services-secondary-range" 
 }
 
 variable "kubernetes_version" { 
