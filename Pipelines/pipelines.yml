@@ -1,5 +1,5 @@
 resources:
-  - name: app_repo
+  - name: app_feature_repo
     type: GitRepo
     configuration:
       gitProvider: my_github3                      # <-- replace with your integration
@@ -9,7 +9,7 @@ resources:
       buildOn:
         commit: true
 
-  - name: app_image
+  - name: app_feature_image
     type: Image
     configuration:
       registry: saartifactory                              # <-- replace with your artifactory integration
@@ -18,65 +18,65 @@ resources:
       imageTag: latest
       autoPull: true
       
-  - name: app_build_info
+  - name: app_feature_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: saartifactory
-      buildName: app_build
+      buildName: app_feature_build
       buildNumber: 1    
 
-  - name: app_promoted_build_info
+  - name: app_feature_promoted_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: saartifactory
-      buildName: app_build
+      buildName: app_feature_build
       buildNumber: 1
       
 
 pipelines:
-  - name: pipeline_app
+  - name: pipeline_app_feature
     steps:
       - name: docker_build
         type: DockerBuild
         configuration:
-          affinityGroup: app_group
+          affinityGroup: app_feature_group
           dockerFileLocation: Application/
           dockerFileName: Dockerfile
           dockerImageName: saar-docker.jfrog.io/docker-local/webapp-features  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
-            - name: app_repo
+            - name: app_feature_repo
           integrations:
             - name: saartifactory                           # <-- replace with your artifactory integration
 
       - name: docker_push
         type: DockerPush
         configuration:
-          affinityGroup: app_group
+          affinityGroup: app_feature_group
           targetRepository: docker-local
           integrations:
             - name: saartifactory                            # <-- replace with your artifactory integration
           inputSteps:
             - name: docker_build
           outputResources:
-            - name: app_image
+            - name: app_feature_image
 
-      - name: publish_app_build
+      - name: publish_app_feature_build
         type: PublishBuildInfo
         configuration:
           inputSteps:
             - name: docker_push
           outputResources:
-            - name: app_build_info
+            - name: app_feature_build_info
 
-      - name: promote_app_build
+      - name: promote_app_feature_build
         type: PromoteBuild
         configuration:
           targetRepository: docker-local
           integrations:
             - name: saartifactory
           inputResources:
-            - name: app_build_info
+            - name: app_feature_build_info
           outputResources:
-            - name: app_promoted_build_info
+            - name: app_feature_promoted_build_info
 
