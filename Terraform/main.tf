@@ -103,3 +103,37 @@ resource "google_project_service" "compute" {
   project  = "cloudopsacademy"
   service = "compute.googleapis.com"
 }
+
+resource "google_compute_subnetwork" "pods-private-secondary-ip-ranges" {
+  name          = "pods-subnetwork"
+  ip_cidr_range = "10.156.1.0/24"
+  region        = var.region
+  network       = var.network
+  secondary_ip_range {
+    range_name    = "pods-secondary-range"
+    ip_cidr_range = "10.156.2.0/24"
+  }
+}
+
+# resource "google_compute_network" "custom-pods" {
+#   name                    = "pods-network"
+#   auto_create_subnetworks = false
+# }
+
+
+
+resource "google_compute_subnetwork" "services-private-secondary-ip-ranges" {
+  name          = "services-subnetwork"
+  ip_cidr_range = "10.156.5.0/24"
+  region        = var.region
+  network       = var.network
+  secondary_ip_range {
+    range_name    = "services-secondary-range"
+    ip_cidr_range = "10.156.6.0/24"
+  }
+}
+
+# resource "google_compute_network" "custom-services" {
+#   name                    = "services-network"
+#   auto_create_subnetworks = false
+# }
