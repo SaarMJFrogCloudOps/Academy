@@ -111,15 +111,14 @@ pipelines:
           outputResources:
             - name: app_promoted_build_info
       
-    - name: app_helm_publish_main
-      type: HelmPublish
-      configuration:
-        #inherits from bash
-        helmVersion: 3
-        chartPath: Application/app
-        flags: -n production 
-        autoPublishBuildInfo: true         
- 
+      - name: app_helm_publish_main
+        type: HelmPublish
+        configuration:
+          #inherits from bash
+          helmVersion: 3
+          chartPath: Application/app
+          flags: -n production 
+          autoPublishBuildInfo: true          
           inputResources:
             - name: app_repo
           outputResources:
