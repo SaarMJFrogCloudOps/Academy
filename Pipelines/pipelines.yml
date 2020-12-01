@@ -40,12 +40,12 @@ resources:
       buildNumber: 1
     
   - name: app_helm_chart
-     type: HelmChart
-     configuration:
-       sourceArtifactory: saartifactory 
-       repository: helm-local
-       chart: app
-       version: 1     
+    type: HelmChart
+    configuration:
+      sourceArtifactory: saartifactory 
+      repository: helm-local
+      chart: app
+      version: 1     
 
 pipelines:
   - name: pipeline_app
