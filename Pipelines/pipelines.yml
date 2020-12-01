@@ -115,7 +115,7 @@ pipelines:
         type: HelmPublish
         configuration:
           affinityGroup: app_group
-          helmVersion: 3
+          # helmVersion: 3
           chartPath: Application/app
           flags: -n production          
           inputResources:
