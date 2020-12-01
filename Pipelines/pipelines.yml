@@ -132,3 +132,15 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - which gcloud
+      
+      - name: app_helm_deploy_test
+        type: HelmDeploy
+        configuration:
+          affinityGroup: app_group
+          helmVersion: 3 
+          flags: --namespace test
+          releaseName: app-test
+          integrations:
+            - name: gke 
+          inputResources:
+            - name: app_helm_chart
