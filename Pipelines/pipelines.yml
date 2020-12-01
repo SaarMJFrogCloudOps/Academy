@@ -60,6 +60,9 @@ pipelines:
             - name: docker_build
           outputResources:
             - name: app_image
+          forceXrayScan: true
+          failOnScan: false
+          autoPublishBuildInfo: true
 
       - name: publish_app_build
         type: PublishBuildInfo
