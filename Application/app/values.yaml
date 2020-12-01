@@ -5,12 +5,13 @@
 replicaCount: 1
 
 image:
-  repository: saar-docker.jfrog.io/docker-local/webapp
+  repository: saar-docker.jfrog.io/docker-rc/webapp
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-imagePullSecrets: pullart
+imagePullSecrets: 
+  - name: pullart
 nameOverride: ""
 fullnameOverride: ""
 
@@ -63,13 +64,15 @@ ingress:
   annotations: 
     kubernetes.io/ingress.global-static-ip-name: coaeip
     networking.gke.io/managed-certificates: coa-cert
+    # kubernetes.io/ingress.class: "gce"
 
   hosts:
     - host: onlythebest.site
-      http:
-        paths:
-          - path: /
-
+      paths: [/]
+        # - path: /
+        #   backend:
+        #     serviceName: app
+        #     servicePort: 443
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

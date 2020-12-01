@@ -11,5 +11,18 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    {{- if .Values.service.httpsPort }}
+    - name: https
+      port: {{ .Values.service.httpsPort }}
+      targetPort: {{ .Values.service.targetPort.https }}
+      {{- if and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) (not (empty .Values.service.nodePorts.https)) }}
+      nodePort: {{ .Values.service.nodePorts.https }}
+      {{- end }}
+    {{- end }}
+    {{- if .Values.metrics.enabled }}
+    - name: metrics
+      port: {{ .Values.metrics.service.port }}
+      targetPort: metrics
+    {{- end }}
   selector:
     {{- include "app.selectorLabels" . | nindent 4 }}
