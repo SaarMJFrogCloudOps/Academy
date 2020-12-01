@@ -103,7 +103,7 @@ pipelines:
         type: PromoteBuild
         configuration:
           affinityGroup: app_group
-          targetRepository: docker-local/docker-rc
+          targetRepository: docker-local
           integrations:
             - name: saartifactory
           inputResources:
