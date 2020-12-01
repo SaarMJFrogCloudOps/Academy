@@ -1,0 +1,21 @@
+ {
+   "general_data": {
+       "name": "docker-local_watch",
+       "description" : "A watch for docker-local repository",
+       "active": true
+   },
+   "project_resources" :  {
+     "resources":  [{ "type" : "repository",
+  "bin_mgr_id" : "default",
+  "name" : "docker-local"
+  
+}
+] 
+   },
+   "assigned_policies" : 
+      [  {
+    "type" : "security",
+    "name" : "medium"
+  }
+]
+ }
