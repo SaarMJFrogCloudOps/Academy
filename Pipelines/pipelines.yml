@@ -67,6 +67,7 @@ pipelines:
       - name: publish_app_build
         type: PublishBuildInfo
         configuration:
+          affinityGroup: app_group
           inputSteps:
             - name: docker_push
           outputResources:
@@ -75,6 +76,7 @@ pipelines:
       - name: promote_app_build
         type: PromoteBuild
         configuration:
+          affinityGroup: app_group
           targetRepository: docker-rc
           integrations:
             - name: saartifactory
