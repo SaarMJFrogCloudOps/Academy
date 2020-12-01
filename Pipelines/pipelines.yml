@@ -116,8 +116,7 @@ pipelines:
         configuration:
           affinityGroup: app_group
           # helmVersion: 3
-          chartPath: Application/app
-          flags: -n production          
+          chartPath: Application/app         
           inputResources:
             - name: app_repo
           outputResources:
