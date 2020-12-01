@@ -131,3 +131,4 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm 
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
+            - which gcloud
