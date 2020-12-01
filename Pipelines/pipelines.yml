@@ -75,7 +75,7 @@ pipelines:
       - name: promote_app_build
         type: PromoteBuild
         configuration:
-          targetRepository: docker-local
+          targetRepository: docker-rc
           integrations:
             - name: saartifactory
           inputResources:
