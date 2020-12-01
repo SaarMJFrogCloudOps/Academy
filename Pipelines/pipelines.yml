@@ -140,7 +140,8 @@ pipelines:
           flags: --namespace test
           releaseName: app-test
           integrations:
-            - name: gke 
+            - name: gce 
+            - name: gke
           inputResources:
             - name: app_helm_chart
         execution:
@@ -153,3 +154,5 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm 
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
+          onExecute:
+            - gcloud container clusters get-credentials "coa" --region=europe-west3
