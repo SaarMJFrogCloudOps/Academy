@@ -23,7 +23,14 @@ resources:
     configuration:
       sourceArtifactory: saartifactory
       buildName: app_build
-      buildNumber: 1    
+      buildNumber: 1   
+
+  - name: scanned_app_build_info
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: saartifactory
+      buildName: scanned_app_build
+      buildNumber: 1 
 
   - name: app_promoted_build_info
     type: BuildInfo
@@ -60,8 +67,8 @@ pipelines:
             - name: docker_build
           outputResources:
             - name: app_image
-          forceXrayScan: true
-          failOnScan: false
+          # forceXrayScan: true
+          # failOnScan: false
           # autoPublishBuildInfo: true
 
       - name: publish_app_build
@@ -72,6 +79,18 @@ pipelines:
             - name: docker_push
           outputResources:
             - name: app_build_info
+
+      - name: scan
+        type: XrayScan
+        configuration:
+          affinityGroup: app_group
+          failOnScan: false
+          inputResources:
+            - name: app_build_info
+              trigger: false
+          outputResources:
+            - name: scanned_app_build_info
+
 
       - name: promote_app_build
         type: PromoteBuild
