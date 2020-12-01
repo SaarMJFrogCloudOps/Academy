@@ -64,13 +64,13 @@ pipelines:
           failOnScan: false
           autoPublishBuildInfo: true
 
-      - name: publish_app_build
-        type: PublishBuildInfo
-        configuration:
-          inputSteps:
-            - name: docker_push
-          outputResources:
-            - name: app_build_info
+      # - name: publish_app_build
+      #   type: PublishBuildInfo
+      #   configuration:
+      #     inputSteps:
+      #       - name: docker_push
+      #     outputResources:
+      #       - name: app_build_info
 
       - name: promote_app_build
         type: PromoteBuild
