@@ -115,10 +115,18 @@ pipelines:
         type: HelmPublish
         configuration:
           affinityGroup: app_group
-          # helmVersion: 3
+          helmVersion: 3
           chartPath: Application/app         
           inputResources:
             - name: app_repo
           outputResources:
             - name: app_helm_chart
-
+          execution:
+          onStart:
+            - export HELM_VERSION="3.4.1"
+            - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz" && \
+              mkdir -p "/usr/local/helm-v$HELM_VERSION" && \
+              tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz" -C "/usr/local/helm-v$HELM_VERSION" && \
+              ln -s "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm && \
+              ln -s "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3 && \
+              rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
