@@ -121,7 +121,7 @@ pipelines:
             - name: app_repo
           outputResources:
             - name: app_helm_chart
-          execution:
+        execution:
           onStart:
             - export HELM_VERSION="3.4.1"
             - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz" && \
