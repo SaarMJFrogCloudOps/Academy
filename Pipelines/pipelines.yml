@@ -114,7 +114,7 @@ pipelines:
       - name: app_helm_publish_main
         type: HelmPublish
         configuration:
-          #inherits from bash
+          affinityGroup: app_group
           helmVersion: 3
           chartPath: Application/app
           flags: -n production 
