@@ -9,7 +9,7 @@ resources:
       buildOn:
         commit: true
 
-  - name: app_image
+  - name: webapp_image
     type: Image
     configuration:
       registry: saartifactory 
@@ -73,7 +73,7 @@ pipelines:
           inputSteps:
             - name: docker_build
           outputResources:
-            - name: app_image
+            - name: webapp_image
           # forceXrayScan: true
           # failOnScan: false
           # autoPublishBuildInfo: true
@@ -144,7 +144,7 @@ pipelines:
             - name: gke
           inputResources:
             - name: app_helm_chart
-            - name: app_image
+            - name: webapp_image
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
