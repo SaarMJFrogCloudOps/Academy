@@ -137,7 +137,7 @@ pipelines:
         configuration:
           affinityGroup: app_group
           helmVersion: 3 
-          flags: --namespace test --set appVersion="${res_webapp_image_imageTag}"
+          flags: --namespace test --set appVersion="$res_webapp_image_imageTag"
           releaseName: app-test
           integrations:
             - name: gce 
@@ -155,5 +155,6 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - gcloud container clusters get-credentials "coa" --region=europe-west3
+            - set -x
             - echo "image tag is:${res_webapp_image_imageTag}"
 
