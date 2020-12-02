@@ -48,7 +48,7 @@ resources:
       version: "1.0"   
 
 pipelines:
-  - name: pipeline_app
+  - name: pipeline_app_test
     steps:
       - name: docker_build
         type: DockerBuild
