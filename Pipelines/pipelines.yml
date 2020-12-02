@@ -148,7 +148,6 @@ pipelines:
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
-            - set -x
             - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - mkdir -p "/usr/local/helm-v$HELM_VERSION"
             - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz" -C "/usr/local/helm-v$HELM_VERSION"
@@ -156,4 +155,6 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - gcloud container clusters get-credentials "coa" --region=europe-west3
+            - env 
+            - echo "image tag is:${imageTag}"
 
