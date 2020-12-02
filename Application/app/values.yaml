@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: saar-docker.jfrog.io/docker-rc/webapp
+  repository: saar-docker.jfrog.io/webapp
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -73,6 +73,8 @@ ingress:
         #   backend:
         #     serviceName: app
         #     servicePort: 443
+    - host: test.onlythebest.site
+      paths: [/]
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
