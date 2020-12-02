@@ -39,7 +39,7 @@ securityContext: {}
 
 service:
   type: NodePort
-  port: 80
+  port: 443
 
     ## HTTPS Port
   ##
@@ -63,22 +63,29 @@ ingress:
   enabled: true
   annotations: 
     kubernetes.io/ingress.global-static-ip-name: coaeip
-    networking.gke.io/managed-certificates: coa-cert
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    # networking.gke.io/managed-certificates: coa-cert
     # kubernetes.io/ingress.class: "gce"
 
   hosts:
     - host: onlythebest.site
-      paths: [/]
-        # - path: /
-        #   backend:
-        #     serviceName: app
-        #     servicePort: 443
+      paths: 
+        - backend:
+            serviceName: app
+            # servicePort: 443
+          path: /
     - host: test.onlythebest.site
-      paths: [/]
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+      paths: 
+        - backend:
+            serviceName: app-test
+            # servicePort: 443
+          path: /
+  tls:
+   - secretName: tls
+     hosts:
+       - test.onlythebest.site
+       - onlythebest.site
 
 resources: 
   # We usually recommend not to specify default resources and to leave this as a conscious
