@@ -45,9 +45,9 @@ service:
   ## Specify the nodePort(s) value(s) for the LoadBalancer and NodePort service types.
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
   ##
-  # nodePorts:
-  #   http: "30008"
-  #   https: "30009"
+  nodePorts:
+    http: "30008"
+    https: "30009"
 
   ## Target port reference value for the Loadbalancer service types can be specified explicitly.
   ## Listeners for the Loadbalancer can be custom mapped to the http or https service.
@@ -66,23 +66,23 @@ ingress:
     # kubernetes.io/ingress.class: "gce"
 
   hosts:
-    - host: onlythebest.site
-      paths: 
-        - backend:
-            serviceName: app
-            # servicePort: 443
-          path: /
+    # - host: onlythebest.site
+    #   paths: 
+    #   - backend:
+    #       serviceName: app
+    #       # servicePort: 443
+    #     path:  /*
     - host: test.onlythebest.site
-      paths: 
-        - backend:
-            serviceName: app-test
-            # servicePort: 443
-          path: /
+      paths: [/]
+      # - backend:
+          # serviceName: app-test
+          # servicePort: 443
+        # path: /
   tls:
    - secretName: tls
      hosts:
        - test.onlythebest.site
-       - onlythebest.site
+      #  - onlythebest.site
 
 resources: 
   # We usually recommend not to specify default resources and to leave this as a conscious
