@@ -155,6 +155,5 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - gcloud container clusters get-credentials "coa" --region=europe-west3
-            - env 
-            - echo "image tag is:${imageTag}"
+            - echo "image tag is:${res_webapp_image_imageTag}"
 
