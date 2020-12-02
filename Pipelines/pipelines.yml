@@ -2,8 +2,8 @@ resources:
   - name: app_repo
     type: GitRepo
     configuration:
-      gitProvider: my_github3                      # <-- replace with your integration
-      path: SaarMJFrogCloudOps/Academy    # <-- replace with your repository name
+      gitProvider: my_github3       
+      path: SaarMJFrogCloudOps/Academy 
       branches:
         include: main
       buildOn:
@@ -12,9 +12,9 @@ resources:
   - name: app_image
     type: Image
     configuration:
-      registry: saartifactory                              # <-- replace with your artifactory integration
-      sourceRepository: docker_local               # <-- required if registry is Artifactory
-      imageName: saar-docker.jfrog.io/docker-local/webapp  # < -- replace with your image path and name
+      registry: saartifactory 
+      sourceRepository: docker_local
+      imageName: saar-docker.jfrog.io/webapp 
       imageTag: latest
       autoPull: true
       
