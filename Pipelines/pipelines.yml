@@ -137,13 +137,14 @@ pipelines:
         configuration:
           affinityGroup: app_group
           helmVersion: 3 
-          flags: --namespace test
+          flags: --namespace test --set appVersion=$imageTag
           releaseName: app-test
           integrations:
             - name: gce 
             - name: gke
           inputResources:
             - name: app_helm_chart
+            - name: app_image
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
@@ -155,3 +156,9 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - gcloud container clusters get-credentials "coa" --region=europe-west3
+
+            # ToDo today: fix versioning from env var to make every deployment actually work and not get 502s from imagepullbackoff
+            # create test branch with test subdomain ingress + different pipeline and repos
+            # Add metadata to chart like Artifactory
+            # Fix index.html to look pretty and load the image
+            # Finalize slideshow and talking points
