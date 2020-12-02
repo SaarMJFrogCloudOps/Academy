@@ -1,5 +1,5 @@
 resources:
-  - name: app_repo
+  - name: app_test_repo
     type: GitRepo
     configuration:
       gitProvider: my_github3       
@@ -9,7 +9,7 @@ resources:
       buildOn:
         commit: true
 
-  - name: webapp_image
+  - name: webapp_test_image
     type: Image
     configuration:
       registry: saartifactory 
@@ -18,28 +18,28 @@ resources:
       imageTag: latest
       autoPull: true
       
-  - name: app_build_info
+  - name: app_test_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: saartifactory
-      buildName: app_build
+      buildName: app_test_build
       buildNumber: 1   
 
-  - name: scanned_app_build_info
+  - name: scanned_app_test_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: saartifactory
-      buildName: scanned_app_build
+      buildName: scanned_app_test_build
       buildNumber: 1 
 
-  - name: app_promoted_build_info
+  - name: app_test_promoted_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: saartifactory
-      buildName: app_build
+      buildName: app_test_build
       buildNumber: 1
     
-  - name: app_helm_chart
+  - name: app_test_helm_chart
     type: HelmChart
     configuration:
       sourceArtifactory: saartifactory 
@@ -53,74 +53,74 @@ pipelines:
       - name: docker_build
         type: DockerBuild
         configuration:
-          affinityGroup: app_group
+          affinityGroup: app_test_group
           dockerFileLocation: Application/
           dockerFileName: Dockerfile
           dockerImageName: saar-docker.jfrog.io/webapp  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
-            - name: app_repo
+            - name: app_test_repo
           integrations:
             - name: saartifactory                           # <-- replace with your artifactory integration
 
       - name: docker_push
         type: DockerPush
         configuration:
-          affinityGroup: app_group
+          affinityGroup: app_test_group
           targetRepository: docker-local
           integrations:
             - name: saartifactory                            # <-- replace with your artifactory integration
           inputSteps:
             - name: docker_build
           outputResources:
-            - name: webapp_image
+            - name: webapp_test_image
           # forceXrayScan: true
           # failOnScan: false
           # autoPublishBuildInfo: true
 
-      - name: publish_app_build
+      - name: publish_app_test_build
         type: PublishBuildInfo
         configuration:
-          affinityGroup: app_group
+          affinityGroup: app_test_group
           inputSteps:
             - name: docker_push
           outputResources:
-            - name: app_build_info
+            - name: app_test_build_info
 
       - name: scan
         type: XrayScan
         configuration:
-          affinityGroup: app_group
+          affinityGroup: app_test_group
           failOnScan: false
           inputResources:
-            - name: app_build_info
+            - name: app_test_build_info
               trigger: false
           outputResources:
-            - name: scanned_app_build_info
+            - name: scanned_app_test_build_info
 
 
-      - name: promote_app_build
+      - name: promote_app_test_build
         type: PromoteBuild
         configuration:
-          affinityGroup: app_group
+          affinityGroup: app_test_group
           targetRepository: docker-local
           integrations:
             - name: saartifactory
           inputResources:
-            - name: app_build_info
+            - name: app_test_build_info
           outputResources:
-            - name: app_promoted_build_info
+            - name: app_test_promoted_build_info
       
-      - name: app_helm_publish_main
+      - name: app_test_helm_publish_main
         type: HelmPublish
         configuration:
-          affinityGroup: app_group
+          affinityGroup: app_test_group
           helmVersion: 3
           chartPath: Application/app         
           inputResources:
-            - name: app_repo
+            - name: app_test_repo
           outputResources:
-            - name: app_helm_chart
+            - name: app_test_helm_chart
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
@@ -132,12 +132,12 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
       
-      - name: app_helm_deploy_test
+      - name: app_test_helm_deploy_test
         type: HelmDeploy
         configuration:
-          affinityGroup: app_group
+          affinityGroup: app_test_group
           helmVersion: 3 
-          flags: --namespace test --set appVersion="$res_webapp_image_imageTag" --set image.tag="$res_webapp_image_imageTag"
+          flags: --namespace test --set appVersion="$res_webapp_test_image_imageTag" --set image.tag="$res_webapp_test_image_imageTag"
           releaseName: app-test
           valueFilePaths: 
             - Application/app/values.yaml
@@ -145,8 +145,8 @@ pipelines:
             - name: gce 
             - name: gke
           inputResources:
-            - name: app_helm_chart
-            - name: webapp_image
+            - name: app_test_helm_chart
+            - name: webapp_test_image
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
@@ -158,5 +158,5 @@ pipelines:
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - gcloud container clusters get-credentials "coa" --region=europe-west3
             - set -x
-            - echo "image tag is:${res_webapp_image_imageTag}"
+            - echo "image tag is:${res_webapp_test_image_imageTag}"
 
