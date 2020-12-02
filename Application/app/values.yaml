@@ -39,18 +39,15 @@ securityContext: {}
 
 service:
   type: NodePort
-  port: 443
-
-    ## HTTPS Port
-  ##
+  port: 80
   httpsPort: 443
 
   ## Specify the nodePort(s) value(s) for the LoadBalancer and NodePort service types.
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
   ##
-  nodePorts:
-    http: ""
-    https: ""
+  # nodePorts:
+  #   http: "30008"
+  #   https: "30009"
 
   ## Target port reference value for the Loadbalancer service types can be specified explicitly.
   ## Listeners for the Loadbalancer can be custom mapped to the http or https service.
