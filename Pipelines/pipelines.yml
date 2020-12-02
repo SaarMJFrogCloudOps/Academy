@@ -137,8 +137,10 @@ pipelines:
         configuration:
           affinityGroup: app_group
           helmVersion: 3 
-          flags: --namespace test --set appVersion="$res_webapp_image_imageTag"
+          flags: --namespace test --set appVersion="$res_webapp_image_imageTag" --set image.tag="$res_webapp_image_imageTag"
           releaseName: app-test
+          valueFilePaths: 
+            - Application/app/values.yaml
           integrations:
             - name: gce 
             - name: gke
