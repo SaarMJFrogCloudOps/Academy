@@ -137,7 +137,7 @@ pipelines:
         configuration:
           affinityGroup: app_group
           helmVersion: 3 
-          flags: --namespace test --set appVersion=$imageTag
+          flags: --namespace test --set appVersion="${res_webapp_image_imageTag}"
           releaseName: app-test
           integrations:
             - name: gce 
