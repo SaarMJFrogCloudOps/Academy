@@ -13,7 +13,7 @@ resources:
     type: Image
     configuration:
       registry: saartifactory 
-      sourceRepository: docker_local
+      sourceRepository: docker-local
       imageName: saar-docker.jfrog.io/webapp 
       imageTag: latest
       autoPull: true
