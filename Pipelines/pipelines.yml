@@ -56,7 +56,7 @@ pipelines:
           affinityGroup: app_group
           dockerFileLocation: Application/
           dockerFileName: Dockerfile
-          dockerImageName: saar-docker.jfrog.io/docker-local/webapp  # replace with your image path and name
+          dockerImageName: saar-docker.jfrog.io/webapp  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: app_repo
@@ -157,8 +157,3 @@ pipelines:
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - gcloud container clusters get-credentials "coa" --region=europe-west3
 
-            # ToDo today: fix versioning from env var to make every deployment actually work and not get 502s from imagepullbackoff
-            # create test branch with test subdomain ingress + different pipeline and repos
-            # Add metadata to chart like Artifactory
-            # Fix index.html to look pretty and load the image
-            # Finalize slideshow and talking points
