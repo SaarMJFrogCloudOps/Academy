@@ -3,6 +3,7 @@ https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs
 
 
 ## Creating a watch with XRAY REST API
+https://www.jfrog.com/confluence/display/JFROG/xray+REST+API#XrayRESTAPI-CreateWatch
 
 export ART_USER="saar"
 export ART_API_KEY="You0i0n't4hink1dPutrealAPIKeys?!?=="
