@@ -9,7 +9,7 @@ resources:
       buildOn:
         commit: true
 
-  - name: webapp_test_image
+  - name: webapp_tesing_image
     type: Image
     configuration:
       registry: saartifactory 
@@ -73,7 +73,7 @@ pipelines:
           inputSteps:
             - name: docker_build
           outputResources:
-            - name: webapp_test_image
+            - name: webapp_tesing_image
           # forceXrayScan: true
           # failOnScan: false
           # autoPublishBuildInfo: true
@@ -137,7 +137,7 @@ pipelines:
         configuration:
           affinityGroup: app_test_group
           helmVersion: 3 
-          flags: --namespace test --set appVersion="$res_webapp_test_image_imageTag" --set image.tag="$res_webapp_test_image_imageTag"
+          flags: --namespace test --set appVersion="$res_webapp_tesing_image_imageTag" --set image.tag="$res_webapp_tesing_image_imageTag"
           releaseName: app-test
           valueFilePaths: 
             - Application/app/values.yaml
@@ -146,7 +146,7 @@ pipelines:
             - name: gke
           inputResources:
             - name: app_test_helm_chart
-            - name: webapp_test_image
+            - name: webapp_tesing_image
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
@@ -158,5 +158,5 @@ pipelines:
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - gcloud container clusters get-credentials "coa" --region=europe-west3
             - set -x
-            - echo "image tag is:${res_webapp_test_image_imageTag}"
+            - echo "image tag is:${res_webapp_tesing_image_imageTag}"
 
