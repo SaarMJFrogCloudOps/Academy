@@ -41,6 +41,10 @@ spec:
             - name: https
               containerPort: 443
               protocol: TCP
+          volumeMounts:
+            - name: tls 
+              mountPath: "/etc/nginx/certs/"
+              readOnly: "true"
 
           livenessProbe:
             httpGet:
@@ -88,3 +92,12 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+      - name: tls
+        secret:
+          secretName: tls
+          items:
+          - key: tls.crt
+            path: /tls.crt
+          - key: tls.key
+            path: /tls.key
