@@ -43,8 +43,8 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: tls 
-              mountPath: "/etc/nginx/certs/"
-              readOnly: "true"
+              mountPath: "/etc/nginx/certs"
+              readOnly: true
 
           livenessProbe:
             httpGet:
@@ -98,6 +98,6 @@ spec:
           secretName: tls
           items:
           - key: tls.crt
-            path: /tls.crt
+            path: tls.crt
           - key: tls.key
-            path: /tls.key
+            path: tls.key
