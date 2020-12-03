@@ -5,7 +5,7 @@ resources:
       gitProvider: my_github3       
       path: SaarMJFrogCloudOps/Academy 
       branches:
-        include: main
+        include: test
       buildOn:
         commit: true
 
