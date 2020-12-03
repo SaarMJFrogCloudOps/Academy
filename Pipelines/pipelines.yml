@@ -14,7 +14,7 @@ resources:
     configuration:
       registry: saartifactory 
       sourceRepository: docker-local
-      imageName: saar-docker.jfrog.io/webapp 
+      imageName: saar-docker.jfrog.io/webapp-test 
       imageTag: latest
       autoPull: true
       
@@ -45,7 +45,7 @@ resources:
       sourceArtifactory: saartifactory 
       repository: helm-local
       chart: app
-      version: "1.0"   
+      version: "0.1.5"   
 
 pipelines:
   - name: pipeline_app_test
@@ -56,7 +56,7 @@ pipelines:
           affinityGroup: app_test_group
           dockerFileLocation: Application/
           dockerFileName: Dockerfile
-          dockerImageName: saar-docker.jfrog.io/webapp  # replace with your image path and name
+          dockerImageName: saar-docker.jfrog.io/webapp-test  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: app_test_repo
