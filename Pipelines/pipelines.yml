@@ -1,11 +1,11 @@
 resources:
-  - name: app_test_repo
+  - name: app_{{gitBranch}}_repo
     type: GitRepo
     configuration:
       gitProvider: my_github3       
       path: SaarMJFrogCloudOps/Academy 
       branches:
-        include: test
+        include: ^{{gitBranch}}$
       buildOn:
         commit: true
 
@@ -14,32 +14,32 @@ resources:
     configuration:
       registry: saartifactory 
       sourceRepository: docker-local
-      imageName: saar-docker.jfrog.io/webapp-test 
+      imageName: saar-docker.jfrog.io/webapp-{{gitBranch}} 
       imageTag: latest
       autoPull: true
       
-  - name: app_test_build_info
+  - name: app_{{gitBranch}}_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: saartifactory
-      buildName: app_test_build
+      buildName: app_{{gitBranch}}_build
       buildNumber: 1   
 
-  - name: scanned_app_test_build_info
+  - name: scanned_app_{{gitBranch}}_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: saartifactory
-      buildName: scanned_app_test_build
+      buildName: scanned_app_{{gitBranch}}_build
       buildNumber: 1 
 
-  - name: app_test_promoted_build_info
+  - name: app_{{gitBranch}}_promoted_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: saartifactory
-      buildName: app_test_build
+      buildName: app_{{gitBranch}}_build
       buildNumber: 1
     
-  - name: app_test_helm_chart
+  - name: app_{{gitBranch}}_helm_chart
     type: HelmChart
     configuration:
       sourceArtifactory: saartifactory 
@@ -53,20 +53,20 @@ pipelines:
       - name: docker_build
         type: DockerBuild
         configuration:
-          affinityGroup: app_test_group
+          affinityGroup: app_{{gitBranch}}_group
           dockerFileLocation: Application/
           dockerFileName: Dockerfile
-          dockerImageName: saar-docker.jfrog.io/webapp-test  # replace with your image path and name
+          dockerImageName: saar-docker.jfrog.io/webapp-{{gitBranch}}  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
-            - name: app_test_repo
+            - name: app_{{gitBranch}}_repo
           integrations:
             - name: saartifactory                           # <-- replace with your artifactory integration
 
       - name: docker_push
         type: DockerPush
         configuration:
-          affinityGroup: app_test_group
+          affinityGroup: app_{{gitBranch}}_group
           targetRepository: docker-local
           integrations:
             - name: saartifactory                            # <-- replace with your artifactory integration
@@ -78,49 +78,49 @@ pipelines:
           # failOnScan: false
           # autoPublishBuildInfo: true
 
-      - name: publish_app_test_build
+      - name: publish_app_{{gitBranch}}_build
         type: PublishBuildInfo
         configuration:
-          affinityGroup: app_test_group
+          affinityGroup: app_{{gitBranch}}_group
           inputSteps:
             - name: docker_push
           outputResources:
-            - name: app_test_build_info
+            - name: app_{{gitBranch}}_build_info
 
       - name: scan
         type: XrayScan
         configuration:
-          affinityGroup: app_test_group
+          affinityGroup: app_{{gitBranch}}_group
           failOnScan: false
           inputResources:
-            - name: app_test_build_info
+            - name: app_{{gitBranch}}_build_info
               trigger: false
           outputResources:
-            - name: scanned_app_test_build_info
+            - name: scanned_app_{{gitBranch}}_build_info
 
 
-      - name: promote_app_test_build
+      - name: promote_app_{{gitBranch}}_build
         type: PromoteBuild
         configuration:
-          affinityGroup: app_test_group
+          affinityGroup: app_{{gitBranch}}_group
           targetRepository: docker-local
           integrations:
             - name: saartifactory
           inputResources:
-            - name: app_test_build_info
+            - name: app_{{gitBranch}}_build_info
           outputResources:
-            - name: app_test_promoted_build_info
+            - name: app_{{gitBranch}}_promoted_build_info
       
-      - name: app_test_helm_publish_main
+      - name: app_{{gitBranch}}_helm_publish_main
         type: HelmPublish
         configuration:
-          affinityGroup: app_test_group
+          affinityGroup: app_{{gitBranch}}_group
           helmVersion: 3
           chartPath: Application/app         
           inputResources:
-            - name: app_test_repo
+            - name: app_{{gitBranch}}_repo
           outputResources:
-            - name: app_test_helm_chart
+            - name: app_{{gitBranch}}_helm_chart
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
@@ -132,20 +132,20 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
       
-      - name: app_test_helm_deploy_test
+      - name: app_{{gitBranch}}_helm_deploy_test
         type: HelmDeploy
         configuration:
-          affinityGroup: app_test_group
+          affinityGroup: app_{{gitBranch}}_group
           helmVersion: 3 
-          flags: --namespace test --set appVersion="$res_webapp_tesing_image_imageTag" --set image.tag="$res_webapp_tesing_image_imageTag"
-          releaseName: app-test
+          flags: --namespace {{gitBranch}} --set appVersion="$res_webapp_tesing_image_imageTag" --set image.tag="$res_webapp_tesing_image_imageTag"
+          releaseName: app-{{gitBranch}}
           valueFilePaths: 
             - Application/app/values.yaml
           integrations:
             - name: gce 
             - name: gke
           inputResources:
-            - name: app_test_helm_chart
+            - name: app_{{gitBranch}}_helm_chart
             - name: webapp_tesing_image
         execution:
           onStart:
