@@ -45,7 +45,7 @@ resources:
       sourceArtifactory: saartifactory 
       repository: helm-local
       chart: app
-      version: "0.1.5"   
+      version: "0.1.6"   
 
 pipelines:
   - name: pipeline_app_test
