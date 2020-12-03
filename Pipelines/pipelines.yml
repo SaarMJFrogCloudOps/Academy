@@ -9,7 +9,7 @@ resources:
       buildOn:
         commit: true
 
-  - name: webapp_tesing_image
+  - name: webapp_{{gitBranch}}_image
     type: Image
     configuration:
       registry: saartifactory 
@@ -48,7 +48,7 @@ resources:
       version: "0.1.6"   
 
 pipelines:
-  - name: pipeline_app_test
+  - name: pipeline_app_{{gitBranch}}
     steps:
       - name: docker_build
         type: DockerBuild
@@ -73,7 +73,7 @@ pipelines:
           inputSteps:
             - name: docker_build
           outputResources:
-            - name: webapp_tesing_image
+            - name: webapp_{{gitBranch}}_image
           # forceXrayScan: true
           # failOnScan: false
           # autoPublishBuildInfo: true
@@ -132,12 +132,12 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
       
-      - name: app_{{gitBranch}}_helm_deploy_test
+      - name: app_{{gitBranch}}_helm_deploy
         type: HelmDeploy
         configuration:
           affinityGroup: app_{{gitBranch}}_group
           helmVersion: 3 
-          flags: --namespace {{gitBranch}} --set appVersion="$res_webapp_tesing_image_imageTag" --set image.tag="$res_webapp_tesing_image_imageTag"
+          flags: --namespace {{gitBranch}} --set appVersion="$res_webapp_{{gitBranch}}_image_imageTag" --set image.tag="$res_webapp_{{gitBranch}}_image_imageTag"
           releaseName: app-{{gitBranch}}
           valueFilePaths: 
             - Application/app/values.yaml
@@ -146,7 +146,7 @@ pipelines:
             - name: gke
           inputResources:
             - name: app_{{gitBranch}}_helm_chart
-            - name: webapp_tesing_image
+            - name: webapp_{{gitBranch}}_image
         execution:
           onStart:
             - export HELM_VERSION="3.4.1"
@@ -158,5 +158,5 @@ pipelines:
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - gcloud container clusters get-credentials "coa" --region=europe-west3
             - set -x
-            - echo "image tag is:${res_webapp_tesing_image_imageTag}"
+            - echo "image tag is:${res_webapp_{{gitBranch}}_image_imageTag}"
 
