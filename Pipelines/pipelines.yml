@@ -149,7 +149,7 @@ pipelines:
         execution:
           onStart:
             - set -x
-            - pushd $res_{{gitBranch}}_resourcePath
+            - pushd $res_app_{{gitBranch}}_repo_resourcePath
             - ./helminit.sh
             - popd
             - export gitBranchName={{gitBranch}}
