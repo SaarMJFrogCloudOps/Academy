@@ -73,7 +73,7 @@ ingress:
     #       # servicePort: 443
     #     path:  /*
     - host: staging.onlythebest.site
-      paths: [/]
+      paths: [/*]
       # - backend:
           # serviceName: app-test
           # servicePort: 443
