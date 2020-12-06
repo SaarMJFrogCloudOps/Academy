@@ -149,9 +149,7 @@ pipelines:
         execution:
           onStart:
             - set -x
-            - pushd $res_app_{{gitBranch}}_repo_resourcePath
             - ./helminit.sh
-            - popd
             - export gitBranchName={{gitBranch}}
             - echo "Recived branch name $gitBranchName"
             - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
