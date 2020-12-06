@@ -151,15 +151,8 @@ pipelines:
             - set -x
             - pwd
             - env
-            - cd $res_webapp_test_image_resourcePath
-            - cd ../
-            - ls -latr
-            - sudo apt update && apt install tree
+            - apt install tree
             - tree 
-            - cd $step_dependency_state_dir
-            - tree
-            - cd $res_app_test_helm_chart_resourcePath
-            - tree
             - Pipelines/helminit.sh
             - export gitBranchName={{gitBranch}}
             - echo "Recived branch name $gitBranchName"
