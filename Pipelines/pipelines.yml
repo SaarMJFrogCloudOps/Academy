@@ -133,7 +133,7 @@ pipelines:
             - apt install tree
             - tree 
             - env
-            - add_run_files dependencyState/resources/app_{{gitbranch}}_repo/Pipelines/helminit.sh helminit
+            - add_run_files dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh helminit
             - export gitBranchName={{gitBranch}}
             - echo "Recived branch name $gitBranchName"
             - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
