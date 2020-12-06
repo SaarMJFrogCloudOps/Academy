@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: saar-docker.jfrog.io/webapp
+  repository: saar-docker.jfrog.io/webapp-prod
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
