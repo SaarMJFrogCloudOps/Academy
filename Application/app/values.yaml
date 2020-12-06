@@ -66,18 +66,12 @@ ingress:
     # kubernetes.io/ingress.class: "gce"
 
   hosts:
-    # - host: onlythebest.site
-    #   paths: 
-    #   - backend:
-    #       serviceName: app
-    #       # servicePort: 443
-    #     path:  /*
     - host: staging.onlythebest.site
-      paths: [/*]
-      # - backend:
-          # serviceName: app-test
-          # servicePort: 443
-        # path: /
+      paths: 
+      - backend:
+          serviceName: app-staging
+          servicePort: 443
+        path: /*
   tls:
    - secretName: tls
      hosts:
