@@ -108,7 +108,6 @@ pipelines:
             - name: app_{{gitBranch}}_promoted_build_info
         execution:
           onStart:
-            - export HELM_VERSION="3.4.1"
             - set -x
       
       - name: app_{{gitBranch}}_helm_publish_main
@@ -137,7 +136,7 @@ pipelines:
         configuration:
           affinityGroup: app_{{gitBranch}}_group
           helmVersion: 3 
-          flags: --namespace {{gitBranch}} --set image.tag="$run_number --set Values.image.repository=saar-docker.jfrog.io/webapp-{{gitBranch}}
+          flags: --namespace {{gitBranch}} --set image.tag="$run_number --set $repository
           releaseName: app-{{gitBranch}}
           valueFilePaths: 
             - Application/app/values.yaml
@@ -158,5 +157,9 @@ pipelines:
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
             - gcloud container clusters get-credentials "coa" --region=europe-west3
             - set -x
+            - export gitBranchName={{gitBranch}}
+            - echo "Recived branch name $gitBranchName"
+            - export repository="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
+            - echo "Computed repo name $repository"
             
 
