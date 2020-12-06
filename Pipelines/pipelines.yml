@@ -122,8 +122,8 @@ pipelines:
             - name: app_{{gitBranch}}_helm_chart
         execution:
           onStart:
-            - chmod 775 dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
             - dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
+            - gcloud container clusters get-credentials "coa" --region=europe-west3
             - apt install tree
             - tree 
             - env

@@ -6,4 +6,4 @@ tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz" -C "/usr/local/helm-v$HELM_VER
 ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm 
 ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
 rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
-gcloud container clusters get-credentials "coa" --region=europe-west3
+#gcloud container clusters get-credentials "coa" --region=europe-west3
