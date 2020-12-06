@@ -136,7 +136,7 @@ pipelines:
         configuration:
           affinityGroup: app_{{gitBranch}}_group
           helmVersion: 3 
-          flags: --namespace {{gitBranch}} --set image.tag="$run_number --set $repository
+          flags: --namespace {{gitBranch}} --set image.tag="$run_number" --set "$repository"
           releaseName: app-{{gitBranch}}
           valueFilePaths: 
             - Application/app/values.yaml
@@ -161,5 +161,6 @@ pipelines:
             - echo "Recived branch name $gitBranchName"
             - export repository="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
             - echo "Computed repo name $repository"
+            - ls -latr $res_tw_multibranch_repo_resourcePath
             
 
