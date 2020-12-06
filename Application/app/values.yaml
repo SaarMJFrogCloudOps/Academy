@@ -72,7 +72,7 @@ ingress:
     #       serviceName: app
     #       # servicePort: 443
     #     path:  /*
-    - host: staging.onlythebest.site
+    - host: onlythebest.site
       paths: [/]
       # - backend:
           # serviceName: app-test
@@ -81,7 +81,7 @@ ingress:
   tls:
    - secretName: tls
      hosts:
-       - staging.onlythebest.site
+       - onlythebest.site
       #  - onlythebest.site
 
 resources: 
