@@ -122,14 +122,7 @@ pipelines:
             - name: app_{{gitBranch}}_helm_chart
         execution:
           onStart:
-            - export HELM_VERSION="3.4.1"
-            - set -x
-            - curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
-            - mkdir -p "/usr/local/helm-v$HELM_VERSION"
-            - tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz" -C "/usr/local/helm-v$HELM_VERSION"
-            - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm 
-            - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
-            - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
+            - dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
             - apt install tree
             - tree 
             - env
@@ -138,7 +131,7 @@ pipelines:
             - echo "Recived branch name $gitBranchName"
             - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
             - export imageTagVariableName=res_webapp_{{gitBranch}}_image_imageTag
-            - eval IMAGE_TAG_FLAG="image.tag=$((printenv $imageTagVariableName))"
+            - IMAGE_TAG_FLAG="image.tag=$((printenv $imageTagVariableName))"
             - printenv $imageTagVariableName
             - printenv $docker_build_dockerImageTag
             - printenv $IMAGE_TAG_FLAG
