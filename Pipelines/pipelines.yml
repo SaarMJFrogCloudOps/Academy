@@ -162,7 +162,10 @@ pipelines:
             - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
             - echo "Computed repo name $repository"
             - export imageTagVariableName=res_webapp_{{gitBranch}}_image_imageTag
-            - export IMAGE_TAG_FLAG="image.tag=$imageTagVariableName"
+            - eval IMAGE_TAG_FLAG="image.tag=$(($imageTagVariableName))"
+            - printenv $imageTagVariableName
+            - eval $imageTagVariableName
+            - printenv $IMAGE_TAG_FLAG
             - echo "image tag flag is $IMAGE_TAG_FLAG"
             - cd $res_{{gitBranch}}_resourcePath
             - ls -latr
