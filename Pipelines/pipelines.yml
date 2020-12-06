@@ -62,6 +62,15 @@ pipelines:
             - name: app_{{gitBranch}}_repo
           integrations:
             - name: saartifactory 
+        execution:
+          onStart:
+            - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
+          onExecute:
+            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
+          onFailure:
+            - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
+          onSuccess:
+            - update_commit_status app_{{gitBranch}}_repo --message "Succeeded" --context "$step_name"
 
       - name: docker_push
         type: DockerPush
@@ -72,8 +81,19 @@ pipelines:
             - name: saartifactory  
           inputSteps:
             - name: docker_build
+          inputResources:
+            - name: app_{{gitBranch}}_repo
           outputResources:
             - name: webapp_{{gitBranch}}_image
+        execution:
+          onStart:
+            - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
+          onExecute:
+            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
+          onFailure:
+            - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
+          onSuccess:
+            - update_commit_status app_{{gitBranch}}_repo --message "Succeeded" --context "$step_name"
 
       - name: publish_app_{{gitBranch}}_build
         type: PublishBuildInfo
@@ -92,8 +112,18 @@ pipelines:
           inputResources:
             - name: app_{{gitBranch}}_build_info
               trigger: false
+            - name: app_{{gitBranch}}_repo
           outputResources:
             - name: scanned_app_{{gitBranch}}_build_info
+        execution:
+          onStart:
+            - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
+          onExecute:
+            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
+          onFailure:
+            - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
+          onSuccess:
+            - update_commit_status app_{{gitBranch}}_repo --message "Succeeded" --context "$step_name"
 
       - name: promote_app_{{gitBranch}}_build
         type: PromoteBuild
@@ -104,11 +134,18 @@ pipelines:
             - name: saartifactory
           inputResources:
             - name: app_{{gitBranch}}_build_info
+            - name: app_{{gitBranch}}_repo
           outputResources:
             - name: app_{{gitBranch}}_promoted_build_info
         execution:
           onStart:
-            - set -x
+            - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
+          onExecute:
+            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
+          onFailure:
+            - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
+          onSuccess:
+            - update_commit_status app_{{gitBranch}}_repo --message "Succeeded" --context "$step_name"
       
       - name: app_{{gitBranch}}_helm_publish_main
         type: HelmPublish
@@ -125,7 +162,14 @@ pipelines:
             - chmod 775 dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
             - dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
             - add_run_files dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh helminit        
-      
+            - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
+          onExecute:
+            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
+          onFailure:
+            - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
+          onSuccess:
+            - update_commit_status app_{{gitBranch}}_repo --message "Succeeded" --context "$step_name"
+  
       - name: app_{{gitBranch}}_helm_deploy
         type: HelmDeploy
         configuration:
@@ -150,7 +194,15 @@ pipelines:
             - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
             - export imageTagVariableName=res_webapp_{{gitBranch}}_image_imageTag
             - IMAGE_TAG_FLAG=$docker_build_dockerImageTag
+            - set -x
             - ./helminit.sh
             - gcloud container clusters get-credentials "coa" --region=europe-west3
+            - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
+          onExecute:
+            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
+          onFailure:
+            - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
+          onSuccess:
+            - update_commit_status app_{{gitBranch}}_repo --message "Succeeded" --context "$step_name"
 
 
