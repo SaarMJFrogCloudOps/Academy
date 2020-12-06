@@ -124,7 +124,6 @@ pipelines:
           onStart:
             - chmod 775 dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
             - dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
-            - gcloud container clusters get-credentials "coa" --region=europe-west3
             - apt install tree
             - tree 
             - env
@@ -161,6 +160,7 @@ pipelines:
             - restore_run_files helminit Pipelines/helminit.sh
             - apt install tree
             - tree 
+            - gcloud container clusters get-credentials "coa" --region=europe-west3
             - Pipelines/helminit.sh
 
 
