@@ -130,6 +130,18 @@ pipelines:
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm 
             - ln -sf "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm3
             - rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
+            - apt install tree
+            - tree 
+            - add_run_files Pipelines/helminit.sh helminit
+            - export gitBranchName={{gitBranch}}
+            - echo "Recived branch name $gitBranchName"
+            - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
+            - export imageTagVariableName=res_webapp_{{gitBranch}}_image_imageTag
+            - eval IMAGE_TAG_FLAG="image.tag=$((printenv $imageTagVariableName))"
+            - printenv $imageTagVariableName
+            - printenv $docker_build_dockerImageTag
+            - printenv $IMAGE_TAG_FLAG
+            - echo "image tag flag is $IMAGE_TAG_FLAG"
       
       - name: app_{{gitBranch}}_helm_deploy
         type: HelmDeploy
@@ -146,22 +158,13 @@ pipelines:
           inputResources:
             - name: app_{{gitBranch}}_helm_chart
             - name: webapp_{{gitBranch}}_image
-            - name: app_{{gitBranch}}_repo
         execution:
           onStart:
             - set -x
             - pwd
-            - env
+            - restore_run_files helminit Pipelines/helminit.sh
             - apt install tree
             - tree 
-            - find helminit.sh
-            - export gitBranchName={{gitBranch}}
-            - echo "Recived branch name $gitBranchName"
-            - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
-            - echo "Computed repo name $repository"
-            - export imageTagVariableName=res_webapp_{{gitBranch}}_image_imageTag
-            - eval IMAGE_TAG_FLAG="image.tag=$((printenv $imageTagVariableName))"
-            - printenv $imageTagVariableName
-            - printenv $docker_build_dockerImageTag
-            - printenv $IMAGE_TAG_FLAG
-            - echo "image tag flag is $IMAGE_TAG_FLAG"
+            - Pipelines/helminit.sh
+            
+
