@@ -188,9 +188,5 @@ pipelines:
             - ./helminit.sh
             - gcloud container clusters get-credentials "coa" --region=europe-west3
             - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
-          onFailure:
-            - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
-          onSuccess:
-            - update_commit_status app_{{gitBranch}}_repo --message "Succeeded" --context "$step_name"
 
 
