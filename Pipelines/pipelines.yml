@@ -124,18 +124,7 @@ pipelines:
           onStart:
             - chmod 775 dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
             - dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
-            - apt install tree
-            - tree 
-            - env
-            - add_run_files dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh helminit
-            - export gitBranchName={{gitBranch}}
-            - echo "Recived branch name $gitBranchName"
-            - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
-            - export imageTagVariableName=res_webapp_{{gitBranch}}_image_imageTag
-            - printenv $docker_build_dockerImageTag
-            - IMAGE_TAG_FLAG=$docker_build_dockerImageTag
-            - printenv $IMAGE_TAG_FLAG
-            - echo "image tag flag is $IMAGE_TAG_FLAG"
+            - add_run_files dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh helminit        
       
       - name: app_{{gitBranch}}_helm_deploy
         type: HelmDeploy
@@ -156,10 +145,10 @@ pipelines:
           onStart:
             - set -x
             - pwd
-            - restore_run_files helminit Pipelines/helminit.sh
+            - restore_run_files helminit ./helminit.sh
             - apt install tree
             - tree 
             - gcloud container clusters get-credentials "coa" --region=europe-west3
-            - Pipelines/helminit.sh
+            - ./helminit.sh
 
 
