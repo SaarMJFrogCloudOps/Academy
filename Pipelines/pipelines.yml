@@ -153,10 +153,9 @@ pipelines:
             - echo "Recived branch name $gitBranchName"
             - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
             - export imageTagVariableName=res_webapp_{{gitBranch}}_image_imageTag
-            - IMAGE_TAG_FLAG="image.tag=$((printenv $imageTagVariableName))"
-            - printenv $imageTagVariableName
-            - printenv $docker_build_dockerImageTag
-            - printenv $IMAGE_TAG_FLAG
+            - echo $imageTagVariableName
+            - echo $docker_build_dockerImageTag
+            - IMAGE_TAG_FLAG=$docker_build_dockerImageTag
             - echo "image tag flag is $IMAGE_TAG_FLAG"
             - ./helminit.sh
 
