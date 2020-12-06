@@ -143,20 +143,14 @@ pipelines:
             - name: webapp_{{gitBranch}}_image
         execution:
           onStart:
-            - set -x
-            - pwd
             - restore_run_files helminit ./helminit.sh
             - apt install tree
             - tree 
-            - gcloud container clusters get-credentials "coa" --region=europe-west3
             - export gitBranchName={{gitBranch}}
-            - echo "Recived branch name $gitBranchName"
             - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
             - export imageTagVariableName=res_webapp_{{gitBranch}}_image_imageTag
-            - echo $imageTagVariableName
-            - echo $docker_build_dockerImageTag
             - IMAGE_TAG_FLAG=$docker_build_dockerImageTag
-            - echo "image tag flag is $IMAGE_TAG_FLAG"
             - ./helminit.sh
+            - gcloud container clusters get-credentials "coa" --region=europe-west3
 
 
