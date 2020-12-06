@@ -65,8 +65,6 @@ pipelines:
         execution:
           onStart:
             - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
-          onExecute:
-            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
           onFailure:
             - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
           onSuccess:
@@ -88,8 +86,6 @@ pipelines:
         execution:
           onStart:
             - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
-          onExecute:
-            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
           onFailure:
             - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
           onSuccess:
@@ -118,8 +114,6 @@ pipelines:
         execution:
           onStart:
             - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
-          onExecute:
-            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
           onFailure:
             - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
           onSuccess:
@@ -140,8 +134,6 @@ pipelines:
         execution:
           onStart:
             - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
-          onExecute:
-            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
           onFailure:
             - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
           onSuccess:
@@ -163,8 +155,6 @@ pipelines:
             - dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
             - add_run_files dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh helminit        
             - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
-          onExecute:
-            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
           onFailure:
             - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
           onSuccess:
@@ -198,8 +188,6 @@ pipelines:
             - ./helminit.sh
             - gcloud container clusters get-credentials "coa" --region=europe-west3
             - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
-          onExecute:
-            - update_commit_status app_{{gitBranch}}_repo --message "running..." --context "$step_name"
           onFailure:
             - update_commit_status app_{{gitBranch}}_repo --message "Failed" --context "$step_name"
           onSuccess:
