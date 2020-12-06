@@ -122,7 +122,7 @@ pipelines:
             - name: app_{{gitBranch}}_helm_chart
         execution:
           onStart:
-            - chmod +X dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
+            - chmod 775 dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
             - dependencyState/resources/app_{{gitBranch}}_repo/Pipelines/helminit.sh
             - apt install tree
             - tree 
