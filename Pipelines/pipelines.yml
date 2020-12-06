@@ -187,6 +187,5 @@ pipelines:
             - set -x
             - ./helminit.sh
             - gcloud container clusters get-credentials "coa" --region=europe-west3
-            - update_commit_status app_{{gitBranch}}_repo --message "starting..." --context "$step_name"
 
 
