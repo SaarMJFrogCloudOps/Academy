@@ -59,7 +59,7 @@ service:
 ingress:
   enabled: true
   annotations: 
-    kubernetes.io/ingress.global-static-ip-name: coaeip
+    kubernetes.io/ingress.global-static-ip-name: coaeip-prod
     cert-manager.io/cluster-issuer: letsencrypt-prod
     acme.cert-manager.io/http01-edit-in-place: "true"
     # networking.gke.io/managed-certificates: coa-cert
