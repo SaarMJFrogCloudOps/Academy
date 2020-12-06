@@ -146,6 +146,7 @@ pipelines:
           inputResources:
             - name: app_{{gitBranch}}_helm_chart
             - name: webapp_{{gitBranch}}_image
+            - name: app_{{gitBranch}}_repo
         execution:
           onStart:
             - set -x
@@ -153,7 +154,7 @@ pipelines:
             - env
             - apt install tree
             - tree 
-            - Pipelines/helminit.sh
+            - find helminit.sh
             - export gitBranchName={{gitBranch}}
             - echo "Recived branch name $gitBranchName"
             - export REPOSITORY_FLAG="Values.image.repository=saar-docker.jfrog.io/webapp-$gitBranchName"
